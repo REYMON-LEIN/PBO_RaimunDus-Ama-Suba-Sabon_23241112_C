@@ -1,65 +1,55 @@
-Package com.tutorial;
-
-import java.text.NumberFormat;
-import java.util.Locale;
-
-class HitungGajiBersih {
-    private int gaji_pokok;
+class Pegawai {
+    // Deklarasi variabel privat
+    private int gajiPokok;
     private int tunjangan;
     private double pajak; // dalam persen
 
-    // Setter methods
-    public void setGajiPokok(int gaji_pokok) {
-        this.gaji_pokok = gaji_pokok;
+    // Setter dan Getter untuk gaji pokok
+    public void setGajiPokok(int gajiPokok) {
+        this.gajiPokok = gajiPokok;
     }
 
+    public int getGajiPokok() {
+        return gajiPokok;
+    }
+
+    // Setter dan Getter untuk tunjangan
     public void setTunjangan(int tunjangan) {
         this.tunjangan = tunjangan;
-    }
-
-    public void setPajak(double pajak) {
-        this.pajak = pajak;
-    }
-
-    // Getter methods
-    public int getGajiPokok() {
-        return gaji_pokok;
     }
 
     public int getTunjangan() {
         return tunjangan;
     }
 
-    public double getPajak() {
-        return pajak;
+    // Setter dan Getter untuk pajak (dalam persen)
+    public void setPajak(double pajak) {
+        this.pajak = pajak;
     }
 
-    // Method untuk menghitung gaji bersih
+    // Menghitung pajak dalam rupiah
+    public double getPajak() {
+        return (pajak / 100) * (gajiPokok + tunjangan);
+    }
+
+    // Metode untuk menghitung dan mencetak gaji bersih
     public void cetakGajiBersih() {
-        // Pajak dalam rupiah
-        double pajakRupiah = (gaji_pokok + tunjangan) * (pajak / 100);
-        // Gaji bersih
-        double gajiBersih = (gaji_pokok + tunjangan) - pajakRupiah;
-
-        // Format angka ke format Indonesia (menggunakan titik sebagai pemisah ribuan)
-        NumberFormat formatIndonesia = NumberFormat.getInstance(new Locale("id", "ID"));
-
-        // Output
-        System.out.println("Gaji Bersih Anda adalah sebesar Rp. " + formatIndonesia.format(gajiBersih));
+        double gajiKotor = gajiPokok + tunjangan;
+        double gajiBersih = gajiKotor - getPajak();
+        System.out.printf("Gaji bersih Anda adalah sebesar Rp.%.2f\n", gajiBersih);
     }
 }
 
-public class Main {
+public class HitungGajiBersih {
     public static void main(String[] args) {
-        // Membuat objek HitungGajiBersih
-        HitungGajiBersih hitung = new HitungGajiBersih();
+        Pegawai pegawai = new Pegawai();
 
-        // Input data
-        hitung.setGajiPokok(3500000); // Gaji pokok
-        hitung.setTunjangan(500000); // Tunjangan
-        hitung.setPajak(10); // Pajak dalam persen
+        // Set gaji pokok, tunjangan, dan pajak
+        pegawai.setGajiPokok(5000000); // contoh gaji pokok Rp. 5,000,000
+        pegawai.setTunjangan(500000);  // contoh tunjangan Rp. 500,000
+        pegawai.setPajak(5);          // contoh pajak 5%
 
-        // Menampilkan hasil gaji bersih
-        hitung.cetakGajiBersih();
+        // Cetak gaji bersih
+        pegawai.cetakGajiBersih();
     }
 }
